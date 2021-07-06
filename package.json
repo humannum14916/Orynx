@@ -1,0 +1,20 @@
+{
+  "name": "orynxcore",
+  "version": "1.0.0",
+  "description": "The Orynx language and libraries. Only the Orynx bash script is outside of this folder.",
+  "main": "orynx.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "orynx test"
+  },
+  "keywords": [
+    "orynx"
+  ],
+  "author": "Andrew Cudzinovic",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}

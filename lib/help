@@ -1,0 +1,16 @@
+log("Usage:");
+log("  orynx");
+log("    starts the orynx REPL");
+log("  orynx [filename]");
+log("    runs the script at [filename]");
+log("    if [filename] is the name of a built-in script,");
+log("    that will be run instead");
+log("Built-in scripts:");
+log("  help");
+log("    prints this help message");
+log("  test");
+log("    prints 'Orynx is working!'");
+log("    used as a simple test program");
+log("Documentation and code:");
+log("  https://replit.com/@AndrewCudzinovi/Orynx");
+log("");

@@ -1,0 +1,244 @@
+return = <
+//Language Standard Library
+
+"if":{
+  ?(parameters.0,parameters.1,parameters.2)();
+},
+
+"while":<"onCall":{
+  condition = parameters.0;
+  body = parameters.1;
+  if(condition(),{
+    body();
+    while(condition,body);
+  },{});
+}>,
+
+"Array":<
+  "onCall":{//create array from the input parameters
+    return = from(parameters);
+  },
+  "from":{//create array from an arrayish object
+    in = parameters.0;
+
+    //create and setup array
+    out = array();
+    out.length = in.length;
+
+    //set elements
+    pointer = 0;
+    while({
+      return = less(pointer,out.length);
+    },{
+      out[pointer] = in[pointer];
+      pointer = +(pointer,1);
+    });
+
+    //return
+    return = out;
+  },
+  "array":<
+    "onCall":{
+      //copy prototype and return
+      return = deepCopy(prototype);
+    },
+    "prototype":<
+      "length":0,
+      "type":"array",
+      "customConvert":{
+        //check conversion type
+        if(not(equals(parameters.0,"string")),{
+          error("Arrays can only be converted to strings");
+        },{});
+
+        //output string
+        out = "[";
+
+        //loop through elements
+        pointer = 0;
+        while({
+          return = less(pointer,length);
+        },{
+          //add element output string
+          out = +(out,convert([pointer],"string"));
+
+          //add a comma if not last element
+          if(not(equals(-(length,1),pointer)),{
+            out = +(out,",");
+          },{});
+
+          //incrament index
+          pointer = +(pointer,1);
+        });
+
+        //return value
+        return = +(out,"]");
+      },
+      "push":{
+        //add value
+        [length] = parameters.0;
+
+        //incrament length
+        length = +(length,1);
+
+        //return new length
+        return = length;
+      },
+      "pop":{
+        //decrament length
+        length = -(length,1);
+
+        //return value
+        return = [length];
+      },
+      "top":{
+        return = [-(length,1)];
+      },
+      "forEach":{
+        params = parameters;
+        pointer = 0;
+        while({return = less(pointer,length);},{
+          params.0([pointer]);
+          pointer = +(pointer,1);
+        });
+      },
+      "concat":{
+        //add another array to the end of this one
+        other = parameters.0;
+        other.forEach({
+          push(parameters.0);
+        });
+        return = this;
+      },
+      "slice":{
+        //return a section of an array
+        //from f (inclusive)
+        //to t (exclusive)
+
+        params = parameters;
+        f = params.0;
+        default(params,1,length);
+        t = params.1;
+        ret = array();
+        pointer = 0;
+        while({return = less(pointer,length);},{
+          if(and(ge(pointer,f),less(pointer,t)),{
+            ret.push([pointer]);
+          },{});
+          pointer = +(pointer,1);
+        });
+        return = ret;
+      },
+      "splice":{
+        //remove b elements
+        //starting at index a
+        //and insert c at a
+        //c can be an array of values to insert
+        //or a single value
+
+        params = parameters;
+        index = params.0;
+        default(params,1,0);
+        remove = params.1;
+        default(params,2,array());
+        insert = params.2;
+
+        wrap = false;
+        if(isObject(insert),{
+          if(has(insert,"type"),{
+            if(not(equals(insert.type,"array")),{
+              wrap = true;
+            },{});
+          },{wrap = true;});
+        },{wrap = true;});
+        if(wrap,{
+          insert = Array(insert);
+        },{});
+
+        before = slice(0,index);
+        after = slice(+(index,remove),length);
+        
+        return = before.concat(insert).concat(after);
+      },
+    >
+  >,
+>,
+
+"le":{
+  retun = or(
+    less(parameters.0,parameters.1),
+    equals(parameters.0,parameters.1)
+  );
+},
+
+"ge":{
+  return = or(
+    greater(parameters.0,parameters.1),
+    equals(parameters.0,parameters.1)
+  );
+},
+
+"default":<"onCall":{
+  object = parameters.0;
+  prop = parameters.1;
+  value = parameters.2;
+  if(not(has(object,prop)),{
+    object[prop] = value;
+  },{});
+  return = object;
+}>,
+
+"Promise":<
+  "onCall":{
+    //asyncFunction, parameter=null, toCall=[]
+    //an abstraction that makes handling async
+    //functions easier
+    //Very similar to JavaScript promises
+
+    params = parameters;
+
+    //fill in default values
+    default(params,1,null);
+    default(params,2,Array());
+
+    //copy prototype
+    ret = deepCopy(prototype);
+
+    //set function and toCall properties
+    ret.function = copy(params.0);
+    ret.toCall = params.2;
+
+    //start wait loop
+    async(ret.wait,params.1);
+
+    //return value
+    return = ret;
+  },
+  "prototype":<
+    "type":"Promise",
+    "asyncReturn":null,
+    "completed":false,
+    "wait":{
+      //call function and wait for completion
+      async(copy(function),params.0);
+      //wait
+      while({
+        return = equals(asyncReturn,null);
+      },{});
+      //call function in toCall
+      completed = true;
+      toCall.forEach({parameters.0(asyncReturn);});
+    },
+    "onComplete":{
+      //add another function to be run on completion
+      //will be immediatly run if already completed
+      if(completed,{
+        parameters.0(asyncReturn);
+      },{
+        onCall.push(parameters.0);
+      });
+    },
+  >,
+>,
+
+>;
