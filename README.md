@@ -9,6 +9,28 @@ Second, instead of having to declare a function as asynchonous like in Javascrip
 
 Aside from that, Orynx is very similar to JS, and even shares the ability to be run in NodeJS and on webpages.
 
+## Downloading and setting up Orynx
+While the Orynx language can be used anywhere Javascript is available, this version of the language is designed to be used from a command line. If you want to use Orynx in another environment, see the next section "Orynx and Javascript".
+
+To set up Orynx, you first need to download or clone this repository. Once you have a local copy, rename the downloaded `Orynx` folder to `orynxCore`. At this point, you can run Orynx using `node ~/path/to/orynxCore/orynx.js /absolute/path/to/orynxCore`. However, this is not very easy to use, and there is an easy way to fix it. By creating a shell script that runs the command automatically, you can create a custom command for Orynx.
+
+For Linux:
+Create a file named "orynx" and put the following inside
+```bash
+#!/bin/bash
+
+#bash command wrapper for the Orynx language
+
+#run the Oryx JS program and pass it the command line parameters
+#orynxCore absolue path included as first argument
+node ~/bin/orynxCore/orynx.js /home/[yourUsername]/bin/orynxCore $1 $2
+```
+This file and the orynxCore folder should be put under `~/bin` (create a `bin` folder if you don't have one).
+
+Next, you need to set the permissions of the `orynx` file so that you can execute it. Run `chmod 755 ~/bin/orynx` to give yourself permission to execute the file.
+
+At this point, you can test that the `orynx` command is working by opening the terminal and running `orynx test`. For an overview of how to use the `orynx` command, run `orynx help`.
+
 ## Basics
 Code in Orynx is broken into statements, which can either consist of two expressions separated by an equals sign, or a single expression. Statements also must end with a semicolon.
 ```javascript
@@ -357,26 +379,6 @@ Currently, Orynx has only two extentions, both for networking. The first, `netwo
 
 `networking-webpage`:
 + `request`: Identical to the `networking-node` `request` function.
-
-## Downloading and setting up Orynx
-While the Orynx language can be used anywhere Javascript is available, this version of the language is designed to be used from a command line. If you want to use Orynx in another environment, see the next section "Orynx and Javascript".
-
-To set up Orynx, you first need to download or clone this repository. Once you have a local copy, create a folder called "orynxCore" and put the downloaded files inside. At this point, you can run Orynx using `node ~/path/to/orynxCore/orynx.js /absolute/path/to/orynxCore`. However, this is not very easy to use, and there is an easy way to fix it. By creating a shell script that runs the command automatically, you can create a custom command for Orynx.
-
-For Linux:
-Create a file named "orynx" and put the following inside
-`bash
-#!/bin/bash
-
-#bash command wrapper for the Orynx language
-
-#run the Oryx JS program and pass it the command line parameters
-#orynxCore absolue path included as first argument
-node ~/bin/orynxCore/orynx.js /home/[yourUsername]/bin/orynxCore $1 $2
-`
-This file and the orynxCore folder should be put under ~/bin
-
-At this point, you can test that the `orynx` command is working by opening the terminal and running `orynx test`. For an overview of how to use the `orynx` command, run `orynx help`.
 
 ## Orynx and Javascript
 The entire Orynx language core is in the `orynxLangCore.js` file. This file runs both on webpages and NodeJS. When run on Node, it exports the `LangEnv` class. When run on a webpage, it defines the `LangEnv` class. The `LangEnv` class takes two functions. The first is used by the Orynx environment to read files, and the second is used for output. Example:
