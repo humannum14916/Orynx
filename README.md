@@ -46,7 +46,7 @@ Next, you need to set the permissions of the `orynx` file so that you can execut
 
 At this point, you can test that the `orynx` command is working by opening the terminal and running `orynx test`. For an overview of how to use the `orynx` command, run `orynx help`.
 
-To update to the latest version of Orynx, run `cd ~/bin/orynxCore`, then `git pull`.
+To update to the latest version of Orynx, use the terminal to navigate into the `orynxCore` folder, then run `git pull`.
 
 ## Basics
 Code in Orynx is broken into statements, which can either consist of two expressions separated by an equals sign, or a single expression. Statements also must end with a semicolon.
