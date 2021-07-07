@@ -15,7 +15,7 @@ While the Orynx language can be used anywhere Javascript is available, this vers
 To set up Orynx, you first need to download or clone this repository. Once you have a local copy, rename the downloaded `Orynx` folder to `orynxCore`. At this point, you can run Orynx using `node ~/path/to/orynxCore/orynx.js /absolute/path/to/orynxCore`. However, this is not very easy to use, and there is an easy way to fix it. By creating a shell script that runs the command automatically, you can create a custom command for Orynx.
 
 For Linux:
-Create a file named "orynx" and put the following inside
+Create a file named `orynx` and put the following inside
 ```bash
 #!/bin/bash
 
@@ -25,9 +25,24 @@ Create a file named "orynx" and put the following inside
 #orynxCore absolue path included as first argument
 node ~/bin/orynxCore/orynx.js /home/[yourUsername]/bin/orynxCore $1 $2
 ```
-This file and the orynxCore folder should be put under `~/bin` (create a `bin` folder if you don't have one).
-
+This file and the `orynxCore` folder should be put under `~/bin` (create a `bin` folder if you don't have one).
 Next, you need to set the permissions of the `orynx` file so that you can execute it. Run `chmod 755 ~/bin/orynx` to give yourself permission to execute the file.
+
+For Mac:
+Turn on "Show all filename extentions" in Finder -> Preferences -> Advanced.
+Open TextEdit and create a new file. Select Format -> Make Plain Text, then put the following inside
+```bash
+#!/bin/bash
+
+#bash command wrapper for the Orynx language
+
+#run the Orynx JS program and pass it the command line parameters
+#orynxCore absolute path included as first argument
+node /usr/local/bin/orynxCore/orynx.js /usr/local/bin/orynxCore $1 $2
+```
+Save the file, then open Finder and rename the file to `orynx` with no file extention.
+Enable the display of hidden files in Finder using command-shift-period. Go to Go -> Computer, then to `Macintosh HD/usr/local/bin`. Put `orynx` and `orynxCore` there. You will need to enter an admin password.
+Next, you need to set the permissions of the `orynx` file so that you can execute it. Run `chmod 755 /usr/local/bin/orynx` to give yourself permission to execute the file.
 
 At this point, you can test that the `orynx` command is working by opening the terminal and running `orynx test`. For an overview of how to use the `orynx` command, run `orynx help`.
 
