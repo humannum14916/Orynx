@@ -12,5 +12,6 @@ log("  test");
 log("    prints 'Orynx is working!'");
 log("    used as a simple test program");
 log("Documentation and code:");
-log("  https://replit.com/@AndrewCudzinovi/Orynx");
+log("  https://github.com/humannum14916/Orynx");
+log("  or just look through ~/bin/orynxCore");
 log("");
