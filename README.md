@@ -278,6 +278,37 @@ whatAmI = <
 whatAmI();
 ```
 
+The use of the parent object as function scope is quite helpful sometimes, but others you just need to keep a variable local to a single function call. This can be done by setting it on `local`.
+```javascript
+a = {
+  g = 5;
+  local.g = 5;
+
+  log("A");
+  log(g);
+  log(local.g);
+
+  b();
+
+  log("A-B");
+  log(g);
+  log(local.g);
+};
+
+b = {
+  log("B");
+
+  g = 10;
+  local.g = 10;
+
+  log(g);
+  log(local.g);
+};
+
+a();
+```
+Anything set on `local` is only accesible from the function call it was created in, and cannot be accesed from anywhere else, even another call of the same function.
+
 While you can return a value from a function using the `return` variable, you can also return a value from the main thread as well. When the main thread finishes running, the value of the `return` variable will go to the program output.
 
 If you try to use the `convert` function to convert an object, if the object has a `customConvert` property it will be run and passed the destination type. The return value is returned by `convert`.
