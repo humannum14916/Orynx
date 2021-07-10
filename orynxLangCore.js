@@ -605,8 +605,8 @@ const LangEnv = function(){
       if(this.type=="object"&&!override){
         this.value = Object.create(null);
         for(let p of value){
-          this.value[this.evalExpS(p.k).getStringS()] = 
-            this.evalExpS(p.v);
+          this.value[this.evalExpS(new LangVal("object",Object.create(null),this.env,this),p.k).getStringS()] = 
+            this.evalExpS(new LangVal("object",Object.create(null),this.env,this),p.v);
         }
       }
     }
@@ -634,7 +634,7 @@ const LangEnv = function(){
         return val;
       }
     }
-    async evalExp(exp){
+    async evalExp(local,exp){
       //expression evaluator (only called on object values)
       //evaluates the given expression on this value
       let val = this;
@@ -645,8 +645,13 @@ const LangEnv = function(){
         }
         if(t.type=="access"){
           //access, get key and set value
-          let temp = await (await this.evalExp(t.val)).getString();
-          if(temp != "string,\"this\"") {
+          let temp = await (await this.evalExp(local,t.val)).getString();
+          if(temp == "string,\"this\"") {
+            val = this;
+          } else if(temp == "string,\"local\""){
+            val = local;
+            continue;
+          } else {
             val = val.access(temp);
           }
         }
@@ -654,14 +659,14 @@ const LangEnv = function(){
           //function call, evaluate parameters and call function
           let params = [];
           for(let p of t.val){
-            params.push(await this.evalExp(p));
+            params.push(await this.evalExp(local,p));
           }
           val = await val.callF(params,this);
         }
       }
       return val;
     }
-    evalExpS(exp){
+    evalExpS(local,exp){
       //a synchonous version of evalExp
       let val = this;
       for(let t of exp){
@@ -669,11 +674,22 @@ const LangEnv = function(){
           val = new LangVal(t.val.type,t.val.val,this.env,this);
         }
         if(t.type=="access"){
-          let temp = this.evalExpS(t.val).getStringS();
-          val = val.access(temp);
+          let temp = this.evalExpS(local,t.val).getStringS();
+          if(temp == "string,\"this\"") {
+            val = this;
+          } else if(temp == "string,\"local\""){
+            val = local;
+            continue;
+          } else {
+            val = val.access(temp);
+          }
         }
         if(t.type=="apply"){
-          val = val.callF(t.val.map(this.evalExp.bind(this)),this);
+          let params = [];
+          for(let p of t.val){
+            params.push(this.evalExpS(local,p));
+          }
+          val = val.callF(params,this);
         }
       }
       return val;
@@ -686,6 +702,8 @@ const LangEnv = function(){
         return this.access("string,\"onCall\"").callF(params,originScope);
       } else if(this.type=="function"){
         //actual function
+        //create local variable object
+        let local = new LangVal("object",Object.create(null),this.env,this.parent,true);
         //create parameters object
         let paramF = Object.create(null);
         paramF["string,\"length\""] = new LangVal("number",params.length,this.env);
@@ -709,9 +727,9 @@ const LangEnv = function(){
             this.env.error("Destination expression must result in an object property");
           }
           //evaluate source and destination values
-          destP = await this.parent.evalExp(destP.val);
-          let val = await this.parent.evalExp(l.f);
-          let dest = await this.parent.evalExp(l.t.slice(0,l.t.length-1));
+          destP = await this.parent.evalExp(local,destP.val);
+          let val = await this.parent.evalExp(local,l.f);
+          let dest = await this.parent.evalExp(local,l.t.slice(0,l.t.length-1));
           //update source
           dest.access(await destP.getString(),val,true);
         }
