@@ -602,11 +602,11 @@ const LangEnv = function(){
         this.value = this.value + "";
       }
       //object value from input code
-      if(this.type=="object"&&!override){
+      if(this.type=="object"&&(!override)){
         this.value = Object.create(null);
         for(let p of value){
-          this.value[this.evalExpS(new LangVal("object",Object.create(null),this.env,this),p.k).getStringS()] = 
-            this.evalExpS(new LangVal("object",Object.create(null),this.env,this),p.v);
+          this.value[this.evalExpS(new LangVal("object",Object.create(null),this.env,this,true),p.k).getStringS()] = 
+            this.evalExpS(new LangVal("object",Object.create(null),this.env,this,true),p.v);
         }
       }
     }
