@@ -290,24 +290,24 @@ const LangEnv = function(){
       },"deepEquals",this);
       new SFunc(([a,b])=>{
         if(a.type=="number"&&b.type=="number"){
-          return this.check(new LangVal("number",(a.value*1)+(b.value*1),this));
+          return this.check(new LangVal("number",(a.value*1)+(b.value*1),this),a,b,"+");
         } else if(a.type=="string"&&b.type=="string"){
           return new LangVal("string",a.value+b.value,this);
         }this.error("Cannot add non-numbers or non-strings");
       },"+",this);
       new SFunc(([a,b])=>{
         if(a.type=="number"&&b.type=="number"){
-          return this.check(new LangVal("number",(a.value*1)-(b.value*1),this));
+          return this.check(new LangVal("number",(a.value*1)-(b.value*1),this),a,b,"-");
         } else this.error("Cannot subtract non-numbers");
       },"-",this);
       new SFunc(([a,b])=>{
         if(a.type=="number"&&b.type=="number"){
-          return this.check(new LangVal("number",(a.value*1)*(b.value*1),this));
+          return this.check(new LangVal("number",(a.value*1)*(b.value*1),this),a,b,"*");
         } else this.error("Cannot multiply non-numbers");
       },"*",this);
       new SFunc(([a,b])=>{
         if(a.type=="number"&&b.type=="number"){
-          return this.check(new LangVal("number",(a.value*1)/(b.value*1),this));
+          return this.check(new LangVal("number",(a.value*1)/(b.value*1),this),a,b,"/");
         } else this.error("Cannot divide non-numbers");
       },"/",this);
       new SFunc(([param],originScope)=>{
@@ -468,13 +468,14 @@ const LangEnv = function(){
       process.exit(1);
     }
     //number checker
-    check(number){
+    check(number,a,b,o){
       //check if the given number LangVal has a
       //value of NaN or similar result
-      let n = number.value;
+      let n = number.value*1;
       if(!Number.isSafeInteger(n)){
-        this.error("Mathematical operation yielded an invalid result");
+        this.error("Mathematical operation \""+o+"\" yielded an invalid result from "+a.getStringS()+" and "+b.getStringS());
       }
+      return number;
     }
     //thread handling
     async wait(newThread) {
