@@ -371,7 +371,7 @@ const LangEnv = function(){
           }
         }
         //else
-        this.error("Cannot conver to that type");
+        this.error("Cannot convert to that type");
       },"convert",this);
       new SFunc(([a,b])=>{
         if(a.type=="bool"&&b.type=="bool"){
