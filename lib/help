@@ -11,6 +11,8 @@ log("    prints this help message");
 log("  test");
 log("    prints 'Orynx is working!'");
 log("    used as a simple test program");
+log("  update");
+log("    updates Orynx to the latest version");
 log("Documentation and code:");
 log("  https://github.com/humannum14916/Orynx");
 log("");
