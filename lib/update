@@ -1,0 +1,7 @@
+//Orynx updater script
+
+//shell access
+extend("system");
+
+//run commands
+log(shell(+("cd ",+(orynxCorePath,";git pull"))));
