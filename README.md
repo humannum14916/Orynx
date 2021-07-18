@@ -278,6 +278,12 @@ whatAmI = <
 whatAmI();
 ```
 
+Accessing the `length` property of a string will return it's length, and accessing a number on a string will give the character at that index.
+```javascript
+s = "abc";
+log(s[s.length-1]);
+```
+
 The use of the parent object as function scope is quite helpful sometimes, but others you just need to keep a variable local to a single function call. This can be done by setting it on `local`.
 ```javascript
 a = {
@@ -417,6 +423,7 @@ Using the `import` function, you can import the standard library (which is writt
     + `onComplete`: Adds another function to be called on Promise resolution. If the Promise has already resolved, the function is called immediately.
   + Usage:
   When the promise is created, it calls the given function asynchonously with the given parameter. When that functions sets the `asyncReturn` variable to something other than `null`, the Promise is resolved. All functions scheduled to be called are called and passed the value of `asyncReturn`.
++ `slice`: Takes a string and two numbers. Performs the same operation as `array`'s slice function, but on the passed string.
 
 ## The Networking Extention
 Currently, Orynx has only two extentions, both for networking. The first, `networking-node` is, of course, for networking while running on NodeJS. The second, `networking-webpage`, is the equivalent for webpages.
