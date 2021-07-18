@@ -1,0 +1,39 @@
+()=>{}
+
+([inp])=>{
+  //orynx to javascript value converter
+  function convert(val) {
+    if(val.type != "object"){
+      if(val.type == "number") return val.value * 1;
+      return val.value;
+    }
+    let o = {};
+    let ks = Object.keys(val.value);
+    for(let k of ks){
+      o[k.slice(k.indexOf("\"")+1,k.length-1)] = convert(val.value[k]);
+    }
+    return o;
+  }
+  //convert and return
+  return new LangVal("string",JSON.stringify(convert(inp)),this);
+},"jsonTo"
+
+([inp],originScope)=>{
+  //input check
+  if(inp.type!="string") this.error("Cannot JSON parse a non-string");
+  //javascript to orynx function
+  function convert(val,os,env){
+    if(typeof(val)=="number") return new LangVal("number",val+"",env);
+    if(typeof(val)=="string") return new LangVal("string",val,env);
+    if(typeof(val)=="object"){
+      let o = new LangVal("object",[],env,os);
+      let ks = Object.keys(val);
+      for(let k of ks){
+        o.value["string,\""+k+"\""] = convert(val[k],os,env);
+      }
+      return o;
+    }
+  }
+  //convert and return
+  return convert(JSON.parse(inp.value),originScope,this);
+},"jsonFrom"
