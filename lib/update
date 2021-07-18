@@ -18,8 +18,7 @@ updateO = shell(+("cd ",+(orynxCorePath,";git pull")));
 newV = getV();
 
 //output
-s.if(equals(updateO,"Already up-to-date.
-"),{
+s.if(equals(s.slice(updateO,0,19),"Already up-to-date."),{
   //up to date
   log(+("Already up to date at version ",newV));
 },{
