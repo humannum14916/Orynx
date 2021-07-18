@@ -1,7 +1,29 @@
 //Orynx updater script
 
-//shell access
+//imports
 extend("system");
+extend("json");
+s = import("slib");
 
-//run commands
-log(shell(+("cd ",+(orynxCorePath,";git pull"))));
+//version reader
+getV = {return = jsonFrom(readFile(+(orynxCorePath,"/package.json"))).version;};
+
+//get version
+prevV = getV();
+
+//run update
+updateO = shell(+("cd ",+(orynxCorePath,";git pull")));
+
+//get new version
+newV = getV();
+
+//output
+s.if(equals(updateO,"Already up-to-date.
+"),{
+  //up to date
+  log(+("Already up to date at version ",newV));
+},{
+  //updated
+  log(updateO);
+  log(+(+("Updated from version ",prevV),+(" to version ",newV)));
+});
