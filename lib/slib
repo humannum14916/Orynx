@@ -241,4 +241,26 @@ return = <
   >,
 >,
 
+"slice":<"onCall":{
+  //return a section of a
+  //string s
+  //from f (inclusive)
+  //to t (exclusive)
+
+  params = parameters;
+  s = params.0;
+  f = params.1;
+  default(params,1,s.length);
+  t = params.2;
+  ret = "";
+  pointer = 0;
+  while({return = less(pointer,s.length);},{
+    if(and(ge(pointer,f),less(pointer,t)),{
+      ret = +(ret,s[pointer]);
+    },{});
+    pointer = +(pointer,1);
+  });
+  return = ret;
+}>,
+
 >;
