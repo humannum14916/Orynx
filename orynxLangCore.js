@@ -15,7 +15,10 @@ const LangEnv = function(){
     let out = "";
     let inString = false;
     let blockComment = false;
+    let escaped = false;
     while(code.length>0){
+      if(escaped === true) escaped = false;
+      if(escaped == 1) escaped = true;
       if(!blockComment){
         if(!inString){
           if(code[0]=="\""){
@@ -34,11 +37,12 @@ const LangEnv = function(){
             out += code[0];
           }
         } else {
-          if(code[0]=="\""){
+          if(code[0]=="\""&&(!escaped)){
             //end of string
             inString = false;
           }
           out += code[0];
+          if(code[0] == "\\" && (!escaped)) escaped = 1;
         }
       } else {
         if(code[0]=="*"&&code[1]=="/"){
@@ -105,9 +109,18 @@ const LangEnv = function(){
     } else if(code[0]=="\""){
       //string
       code = code.slice(1);
-      let end = code.indexOf("\"");
-      let string = code.slice(0,end);
-      code = code.slice(end+1);
+      let string = "";
+      let escaped = false;
+      while(code[0]!="\""||escaped){
+        escaped = false;
+        if(code[0] == "\\" && (!escaped)){
+          escaped = true;
+        } else {
+          string += code[0];
+        }
+        code = code.slice(1);
+      }
+      code = code.slice(1);
       if(code.search(/["{<>()\[\].,=:;]/)!=0) error("ParseError: String closed before expression component");
       return [{type:"constant",val:{
           type:"string",val:string
