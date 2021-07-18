@@ -625,8 +625,14 @@ const LangEnv = function(){
       }
     }
     access(key,newVal,override){
-      if(this.type!="object"){
-        this.env.error("Cannot access properties of a non-object value");
+      if(this.type=="string"){
+        if(key == "string,\"length\"") return new LangVal("number",this.value.length+"",this.env);
+        if(key.slice(0,key.indexOf("\"")-1)!="number") this.env.error("String index must be a number");
+        let i = key.slice(key.indexOf("\"")+1,key.length-1);
+        if(i>=this.value.length) this.env.error("String index out of range");
+        return new LangVal("string",this.value[i],this.env);
+      }else if(this.type!="object"){
+        this.env.error("Cannot access properties of a non-object or string value");
       }else {
         //attempt to get value
         let val = this.value[key];
