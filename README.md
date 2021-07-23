@@ -427,8 +427,8 @@ Using the `import` function, you can import the standard library (which is writt
   When the promise is created, it calls the given function asynchonously with the given parameter. When that functions sets the `asyncReturn` variable to something other than `null`, the Promise is resolved. All functions scheduled to be called are called and passed the value of `asyncReturn`.
 + `slice`: Takes a string and two numbers. Performs the same operation as `array`'s slice function, but on the passed string.
 
-## The Networking Extention
-Currently, Orynx has only two extentions, both for networking. The first, `networking-node` is, of course, for networking while running on NodeJS. The second, `networking-webpage`, is the equivalent for webpages.
+## The Networking Extentions
+Orynx has two networking extentions. The first, `networking-node` is, of course, for networking while running on NodeJS, and the second, `networking-webpage`, is the equivalent for webpages.
 
 `networking-node`:
 + `initServer`: Creates an HTTP server. Takes a function for the request handler and an optional port number.
@@ -436,6 +436,19 @@ Currently, Orynx has only two extentions, both for networking. The first, `netwo
 
 `networking-webpage`:
 + `request`: Identical to the `networking-node` `request` function.
+
+## The JSON Extention
+Because I didn't want to write a JSON parser myself, I wrote an extention to use Javascript's instead.
+
+`json`:
++ `jsonTo`: Takes an Orynx value and converts it to a JSON string.
++ `jsonFrom`: Takes a JSON string and converts it to an Orynx value.
+
+## The System Extention
+The system extention is currently extremely minimal. It can only be used while running on NodeJS.
+
+`system`:
++ `shell`: Takes a shell command string. Runs that command in the same directory as the current script. The command's result is returned as a string.
 
 ## Orynx and Javascript
 The entire Orynx language core is in the `orynxLangCore.js` file. This file runs both on webpages and NodeJS. When run on Node, it exports the `LangEnv` class. When run on a webpage, it defines the `LangEnv` class. The `LangEnv` class takes two functions. The first is used by the Orynx environment to read files, and the second is used for output. Example:
