@@ -347,6 +347,8 @@ sameObject.number = 5;
 log(anObject.number) //will log 5
 ```
 
+Inside the `orynxCore` directory is another directory called `lib`. When attempting to read a file, Orynx will first check if a file by the same name exists in the `lib` directory. If one exists there, the file from `lib` will be read. This happens for all file reads, even `import`, `extend`, and reading the code file to be run. This is used to allow quick access to extentions and modules, and well as run the `help`, `test`, and `update` scripts.
+
 One of the differences between JS and Orynx is asynchronous functions. To call a function asynchronously, simply use the `async` function. Any functions called asynchronously will run beside the current code, and they can interact like in JS. However, unlike JS, execution switches between async functions and the main thread every line, so an async function can go into a loop without freezing the rest of the threads.
 ```javascript
 asyncF = {
