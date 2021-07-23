@@ -10,7 +10,7 @@ Second, instead of having to declare a function as asynchonous like in Javascrip
 Aside from that, Orynx is very similar to JS, and even shares the ability to be run in NodeJS and on webpages.
 
 ## Downloading and setting up Orynx
-While the Orynx language can be used anywhere Javascript is available, this version of the language is designed to be used from a command line. If you want to use Orynx in another environment, see the next section "Orynx and Javascript".
+While the Orynx language can be used anywhere Javascript is available, this version of the language is designed to be used from a command line. If you want to use Orynx in another environment, see the section "Orynx and Javascript".
 
 To set up Orynx, you first need to download or clone this repository. Once you have a local copy, rename the downloaded `Orynx` folder to `orynxCore`. At this point, you can run Orynx using `node ~/path/to/orynxCore/orynx.js /absolute/path/to/orynxCore`. However, this is not very easy to use, and there is an easy way to fix it. By creating a shell script that runs the command automatically, you can create a custom command for Orynx.
 
@@ -367,7 +367,7 @@ async(asycnF);
 This will result in both functions running at the same time. The need to run an asynchronous function synchonously is rare, but when you need to do it, it is often incredibly hard to find a way around it. I actually ran into this problem while making Orynx's async function system, and the result is several functions with synchronous duplicates.
 
 ## Built-in function guide
-A complete list of Orynx's 22 built-in functions
+A complete list of Orynx's built-in functions
 + `platform`: Not actually a function, but a string that hold the name of the platform the language is running on. `"node"` for NodeJS, and `"webpage"` for a website.
 + `log`: A simple output command. Logs the given value to the console.
 + `error`: Throws an error with the given value. Errors cannot be caught, so be careful.
