@@ -276,12 +276,13 @@ const LangEnv = function(){
       new SFunc(([param],originScope)=>{
         if(param.type=="object"){
           let val = Object.create(null);
+          let out = new LangVal("object",val,this,originScope,true);
           for(let k of Object.keys(param.value)){
             val[k] = this.functions["string,\"deepCopy\""].callF(
               [param.value[k]],out
             );
           }
-          return new LangVal("object",val,this,originScope,true);
+          return out;
         } else if(param.type=="function"){
           return new LangVal("function",param.value,this,originScope);
         } else {
