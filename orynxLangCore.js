@@ -274,22 +274,19 @@ const LangEnv = function(){
         } else return param;
       },"copy",this);
       new SFunc(([param],originScope)=>{
-        let val;
-        let out = new LangVal(param.type,Object.create(null),this,originScope,true);
         if(param.type=="object"){
-          val = Object.create(null);
+          let val = Object.create(null);
           for(let k of Object.keys(param.value)){
             val[k] = this.functions["string,\"deepCopy\""].callF(
               [param.value[k]],out
             );
           }
+          return new LangVal("object",val,this,originScope,true);
         } else if(param.type=="function"){
           return new LangVal("function",param.value,this,originScope);
         } else {
           return param;
         }
-        out.value = val;
-        return out;
       },"deepCopy",this);
       new SFunc(async params=>{
         return new LangVal("bool",
