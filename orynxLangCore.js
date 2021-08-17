@@ -780,9 +780,15 @@ const LangEnv = function(){
         }
         //loop over properties and get their strings
         let keys = Object.keys(this.value);
+        let objIDs = [this.id];
         let out = "";
         for(let k of keys){
-          out += ";" + k + ":" + await this.value[k].getString();
+          if(objIDs.indexOf(this.value[k].id)!=-1){
+            out += ";" + k + ":[Circular]";
+          } else {
+           out += ";" + k + ":" + await this.value[k].getString();
+           if(this.value[k].id) objIDs.push(this.value[k].id);
+          }
         }
         out = out.slice(1);
         return "object,{"+out+"}";
@@ -798,9 +804,15 @@ const LangEnv = function(){
       //a synchonous version of getString
       if(this.type == "object"){
         let keys = Object.keys(this.value);
+        let objIDs = [this.id];
         let out = "";
         for(let k of keys){
-          out += ";" + k + ":" + this.value[k].getStringS();
+          if(objIDs.indexOf(this.value[k].id)!=-1){
+            out += ";" + k + ":[Circular]";
+          } else {
+            out += ";" + k + ":" + this.value[k].getStringS();
+            if(this.value[k].id) objIDs.push(this.value[k].id);
+          }
         }
         out = out.slice(1);
         return "object,{"+out+"}";
