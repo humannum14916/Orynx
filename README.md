@@ -12,7 +12,7 @@ Aside from that, Orynx is very similar to JS, and even shares the ability to be 
 ## Downloading and setting up Orynx
 While the Orynx language can be used anywhere Javascript is available, this version of the language is designed to be used from a command line. If you want to use Orynx in another environment, see the section "Orynx and Javascript".
 
-To set up Orynx, you first need to download or clone this repository. Once you have a local copy, rename the downloaded `Orynx` folder to `orynxCore`. At this point, you can run Orynx using `node ~/path/to/orynxCore/orynx.js /absolute/path/to/orynxCore`. However, this is not very easy to use, and there is an easy way to fix it. By creating a shell script that runs the command automatically, you can create a custom command for Orynx.
+To set up Orynx, you first need to download or clone this repository. Then, move the `Orynx` directory to `~/bin` (create a `bin` folder if you don't have one). At this point, you can run Orynx using `node ~/path/to/Orynx/orynx.js`. However, this is not very easy to use, and there is an easy way to fix it. By creating a shell script that runs the command automatically, you can create a custom command for Orynx.
 
 For Linux:
 Create a file named `orynx` and put the following inside
@@ -22,10 +22,10 @@ Create a file named `orynx` and put the following inside
 #bash command wrapper for the Orynx language
 
 #run the Oryx JS program and pass it the command line parameters
-#orynxCore absolue path included as first argument
-node ~/bin/orynxCore/orynx.js /home/[yourUsername]/bin/orynxCore $1 $2
+#Orynx directory absolue path included as first argument
+node ~/bin/Orynx/orynx.js /home/[yourUsername]/bin/Orynx $1 $2
 ```
-This file and the `orynxCore` folder should be put under `~/bin` (create a `bin` folder if you don't have one).
+This file should be put alongside the `Orynx` directory in `~/bin`.
 Next, you need to set the permissions of the `orynx` file so that you can execute it. Run `chmod 755 ~/bin/orynx` to give yourself permission to execute the file.
 
 For Mac:
@@ -37,11 +37,11 @@ Open TextEdit and create a new file. Select Format -> Make Plain Text, then put 
 #bash command wrapper for the Orynx language
 
 #run the Orynx JS program and pass it the command line parameters
-#orynxCore absolute path included as first argument
-node /usr/local/bin/orynxCore/orynx.js /usr/local/bin/orynxCore $1 $2
+#Orynx directory absolute path included as first argument
+node /usr/local/bin/Orynx/orynx.js /usr/local/bin/Orynx $1 $2
 ```
 Save the file, then open Finder and rename the file to `orynx` with no file extention.
-Enable the display of hidden files in Finder using command-shift-period. Go to Go -> Computer, then to `Macintosh HD/usr/local/bin`. Put `orynx` and `orynxCore` there. You will need to enter an admin password.
+Enable the display of hidden files in Finder using command-shift-period. Go to Go -> Computer, then to `Macintosh HD/usr/local/bin`. Put `orynx` there. You will need to enter an admin password.
 Next, you need to set the permissions of the `orynx` file so that you can execute it. Run `chmod 755 /usr/local/bin/orynx` to give yourself permission to execute the file.
 
 At this point, you can test that the `orynx` command is working by opening the terminal and running `orynx test`. For an overview of how to use the `orynx` command, run `orynx help`.
@@ -347,7 +347,7 @@ sameObject.number = 5;
 log(anObject.number) //will log 5
 ```
 
-Inside the `orynxCore` directory is another directory called `lib`. When attempting to read a file, Orynx will first check if a file by the same name exists in the `lib` directory. If one exists there, the file from `lib` will be read. This happens for all file reads, even `import`, `extend`, and reading the code file to be run. This is used to allow quick access to extentions and modules, and well as run the `help`, `test`, and `update` scripts.
+Inside the `Orynx` directory is another directory called `lib`. When attempting to read a file, Orynx will first check if a file by the same name exists in the `lib` directory. If one exists there, the file from `lib` will be read. This happens for all file reads, even `import`, `extend`, and reading the code file to be run. This is used to allow quick access to extentions and modules, and well as run the `help`, `test`, and `update` scripts.
 
 One of the differences between JS and Orynx is asynchronous functions. To call a function asynchronously, simply use the `async` function. Any functions called asynchronously will run beside the current code, and they can interact like in JS. However, unlike JS, execution switches between async functions and the main thread every line, so an async function can go into a loop without freezing the rest of the threads.
 ```javascript
@@ -406,15 +406,15 @@ Using the `import` function, you can import the standard library (which is writt
   + Calling `Array` will create an array from an object like `parameters`.
   + `Array.from` does the same thing.
   + `Array.array` is the array class.
-    + Calling `Array.array` returns a blank array.
-    + `Array.array.prototype` is the blank array template.
+    +Calling `Array.array` returns a blank array.
+    +`Array.array.prototype` is the blank array template.
   + Array manipulation functions:
-    + `push`: Add the given value to the end of the array. Returns the new length.
-    + `pop`: Removes and returns the last item in the array.
-    + `top`: Returs the last item in the array without removing it.
-    + `forEach`: Calls the given function on each item in the array.
-    + `concat`: Adds the given array to the end of the array.
-    + `slice`: Returns a section of the array from first index (inclusive) to last index (exclusive).
+    +`push`: Add the given value to the end of the array. Returns the new length.
+    +`pop`: Removes and returns the last item in the array.
+    +`top`: Returs the last item in the array without removing it.
+    +`forEach`: Calls the given function on each item in the array.
+    +`concat`: Adds the given array to the end of the array.
+    +`slice`: Returns a section of the array from first index (inclusive) to last index (exclusive).
 + `le`: Takes two numbers and returns true if the first is less than or equal to the second.
 + `ge`: Takes two numbers and returns true if the first is greater than or equal to the second.
 + `default`: Takes an object, a property name, and a default value. If the object does not have a property under that name, it creates it and gives it the default value. Returns the object.
@@ -422,7 +422,7 @@ Using the `import` function, you can import the standard library (which is writt
   + Calling `Promise` will run the Promise constructor. It takes an async function, an optional parameter for it, and an optional array of other functions to call on completion.
   + `Promise.prototype`: The Promise template object
   + Promise functions:
-    + `onComplete`: Adds another function to be called on Promise resolution. If the Promise has already resolved, the function is called immediately.
+    +`onComplete`: Adds another function to be called on Promise resolution. If the Promise has already resolved, the function is called immediately.
   + Usage:
   When the promise is created, it calls the given function asynchonously with the given parameter. When that functions sets the `asyncReturn` variable to something other than `null`, the Promise is resolved. All functions scheduled to be called are called and passed the value of `asyncReturn`.
 + `slice`: Takes a string and two numbers. Performs the same operation as `array`'s slice function, but on the passed string.
