@@ -9,8 +9,11 @@ const {readFileSync,readdirSync} = require("fs");
 //import the node REPL
 const repl = require("repl");
 
+//import the OS module
+const os = require("os");
+
 //orynxCore folder path
-const corePath = process.argv[2];
+const corePath = os.homedir()+"/bin/Orynx";
 
 //file reading function
 function getFile(n,strict=false){
@@ -47,11 +50,11 @@ function run(filename,params=[]){
 }
 
 //check if a file argument is given
-if(process.argv[3]){
+if(process.argv[2]){
   //file given, run the code
-  let i = process.argv[4];
+  let i = process.argv[3];
   if(i) i = [i];
-  run(process.argv[3],i);
+  run(process.argv[2],i);
 } else {
   //no file, enter REPL
 
