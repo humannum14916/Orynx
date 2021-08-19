@@ -1,10 +1,7 @@
 ()=>{
   if(this.platform!="node") this.error("Cannot use system extention outside of node");
   this.extentions.system = {
-<<<<<<< HEAD
     cproc:require("child_process"),
-=======
->>>>>>> 1ff0756525a40987b87a13e35fc39e805d51a408
     os:require("os"),
   };
   this.functions["string,\"orynxCorePath\""] = new LangVal(
