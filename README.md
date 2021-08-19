@@ -12,37 +12,18 @@ Aside from that, Orynx is very similar to JS, and even shares the ability to be 
 ## Downloading and setting up Orynx
 While the Orynx language can be used anywhere Javascript is available, this version of the language is designed to be used from a command line. If you want to use Orynx in another environment, see the section "Orynx and Javascript".
 
-To set up Orynx, you first need to download or clone this repository. Then, move the `Orynx` directory to `~/bin` (create a `bin` folder if you don't have one). At this point, you can run Orynx using `node ~/path/to/Orynx/orynx.js`. However, this is not very easy to use, and there is an easy way to fix it. By creating a shell script that runs the command automatically, you can create a custom command for Orynx.
-
-For Linux:
-Create a file named `orynx` and put the following inside
+To install Orynx, run the following commands:
 ```bash
-#!/bin/bash
-
-#bash command wrapper for the Orynx language
-
-#run the Oryx JS program and pass it the command line parameters
-#Orynx directory absolue path included as first argument
-node ~/bin/Orynx/orynx.js /home/[yourUsername]/bin/Orynx $1 $2
+curl https://raw.githubusercontent.com/humannum14916/Orynx/master/install | bash
 ```
-This file should be put alongside the `Orynx` directory in `~/bin`.
-Next, you need to set the permissions of the `orynx` file so that you can execute it. Run `chmod 755 ~/bin/orynx` to give yourself permission to execute the file.
-
-For Mac:
-Turn on "Show all filename extentions" in Finder -> Preferences -> Advanced.
-Open TextEdit and create a new file. Select Format -> Make Plain Text, then put the following inside
+If you would rather look at the installer code before you run it, you can use
 ```bash
-#!/bin/bash
-
-#bash command wrapper for the Orynx language
-
-#run the Orynx JS program and pass it the command line parameters
-#Orynx directory absolute path included as first argument
-node /usr/local/bin/Orynx/orynx.js /usr/local/bin/Orynx $1 $2
+touch orynxInstaller; curl https://raw.githubusercontent.com/humannum14916/Orynx/master/install > orynxInstaller
 ```
-Save the file, then open Finder and rename the file to `orynx` with no file extention.
-Enable the display of hidden files in Finder using command-shift-period. Go to Go -> Computer, then to `Macintosh HD/usr/local/bin`. Put `orynx` there. You will need to enter an admin password.
-Next, you need to set the permissions of the `orynx` file so that you can execute it. Run `chmod 755 /usr/local/bin/orynx` to give yourself permission to execute the file.
+This will create a file `named orynxInstaller` with the installer code in it. You can then run the installer using
+```bash
+chmod 755 orynxInstaller; ./orynxInstaller; rm orynxInstaller
+```
 
 At this point, you can test that the `orynx` command is working by opening the terminal and running `orynx test`. For an overview of how to use the `orynx` command, run `orynx help`.
 
