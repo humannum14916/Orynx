@@ -16,6 +16,7 @@ To install Orynx, run the following commands:
 ```bash
 curl https://raw.githubusercontent.com/humannum14916/Orynx/master/install | bash
 ```
+
 If you would rather look at the installer code before you run it, you can use
 ```bash
 touch orynxInstaller; curl https://raw.githubusercontent.com/humannum14916/Orynx/master/install > orynxInstaller
