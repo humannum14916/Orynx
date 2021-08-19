@@ -1,0 +1,9 @@
+//Uninstall Orynx
+
+extend("system");
+
+//remove the orynx bash script
+shell("rm ~/bin/orynx");
+
+//remove the Orynx core directory
+shell(+("rm -r ",orynxCorePath));
