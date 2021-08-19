@@ -4,13 +4,13 @@
 cd ~
 
 #ensure that they have a bin directory
-#mkdir bin
+mkdir bin
 
 #go into it
-#cd bin
+cd bin
 
 #clone Orynx there
-#git clone https://github.com/humannum14916/Orynx.git
+git clone https://github.com/humannum14916/Orynx.git
 
 #move the orynx bash script wrapper out
 #of the Orynx directory and into bin
