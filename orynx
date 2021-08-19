@@ -3,4 +3,4 @@
 #bash command wrapper for the Orynx language
 
 #run the Oryx JS program and pass it the command line parameters
-node ~/bin/Orynx/orynx.js $1 $2
+node ~/bin/OrynxCore/orynx.js $1 $2
