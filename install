@@ -14,4 +14,4 @@ cd ~
 
 #move the orynx bash script wrapper out
 #of the Orynx directory and into bin
-mv ~/bin/Orynx/orynx ~/bin
+cp ~/bin/Orynx/orynx ~/bin
