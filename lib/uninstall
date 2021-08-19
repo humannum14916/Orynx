@@ -3,6 +3,8 @@
 extend("system");
 s = import("slib");
 
+log(parameters);
+
 //check if confirmation entered
 conf = parameters;
 s.if(equals(conf.length,1),{
