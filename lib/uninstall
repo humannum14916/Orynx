@@ -1,9 +1,23 @@
 //Uninstall Orynx
 
 extend("system");
+s = import("slib");
+
+//check if confirmation entered
+conf = parameters;
+s.if(equals(conf.length,1),{
+  s.if(equals(conf.1,"confirm"),{},{error("Improper confirmation entered");});
+},{
+  error("WARNING: this will completely remove Orynx, and delete any modifications you may have made.
+use 'orynx uninstall confirm' to uninstall");
+});
+
+log("Uninstalling...");
 
 //remove the orynx bash script
 shell("rm ~/bin/orynx");
 
 //remove the Orynx core directory
 shell(+("rm -r ",orynxCorePath));
+
+log("Orynx has been uninstalled");
