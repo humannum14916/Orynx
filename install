@@ -14,8 +14,8 @@ git clone https://github.com/humannum14916/Orynx.git
 
 #rename the code directory from Orynx to OrynxCore
 #(to prevent there being two files with the same name)
-vm ~/bin/Orynx ~/bin/OrynxCore
+mv ~/bin/Orynx ~/bin/OrynxCore
 
 #move the orynx bash script wrapper out
 #of the Orynx directory and into bin
-cp ~/bin/OrynCorex/orynx ~/bin
+cp ~/bin/OrynCore/orynx ~/bin
