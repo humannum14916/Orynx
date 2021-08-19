@@ -17,5 +17,5 @@ git clone https://github.com/humannum14916/Orynx.git
 mv ~/bin/Orynx ~/bin/OrynxCore
 
 #move the orynx bash script wrapper out
-#of the Orynx directory and into bin
-cp ~/bin/OrynCore/orynx ~/bin
+#of the OrynxCore directory and into bin
+cp ~/bin/OrynxCore/orynx ~/bin
