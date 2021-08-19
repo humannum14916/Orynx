@@ -13,6 +13,7 @@ prevV = getV();
 
 //run update
 updateO = shell(+("cd ",+(orynxCorePath,";git pull")));
+shell(+("mv ",+(orynxCorePath,"/orynx ~/bin")));
 
 //get new version
 newV = getV();
