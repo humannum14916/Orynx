@@ -2,10 +2,9 @@
   if(this.platform!="node") this.error("Cannot use system extention outside of node");
   this.extentions.system = {
     cproc:require("child_process"),
-    os:require("os"),
   };
   this.functions["string,\"orynxCorePath\""] = new LangVal(
-    "string",this.extentions.system.os.homedir()+"/bin/Orynx",this);
+    "string",corePath,this);
 }
 
 async ([command],originScope)=>{
