@@ -21,7 +21,7 @@ If you would rather look at the installer code before you run it, you can use
 ```bash
 touch orynxInstaller; curl https://raw.githubusercontent.com/humannum14916/Orynx/master/install > orynxInstaller
 ```
-This will create a file `named orynxInstaller` with the installer code in it. You can then run the installer using
+This will create a file named `orynxInstaller` with the installer code in it. You can then run the installer using
 ```bash
 chmod 755 orynxInstaller; ./orynxInstaller; rm orynxInstaller
 ```
