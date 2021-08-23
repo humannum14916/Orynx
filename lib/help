@@ -13,6 +13,8 @@ log("    prints 'Orynx is working!'");
 log("    used as a simple test program");
 log("  update");
 log("    updates Orynx to the latest version");
+log(“  uninstall”);
+log(“    removes Orynx”);
 log("Documentation and code:");
 log("  https://github.com/humannum14916/Orynx");
 log("  or just look through the orynxCore directory");
