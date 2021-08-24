@@ -16,18 +16,30 @@ const os = require("os");
 const corePath = __dirname;
 
 //file reading function
-function getFile(n,strict=false){
+function getFile(n,strict=false,recursive=false){
   //file reading function
   try{
     //check if it is a library file
     if(readdirSync(corePath+"/lib").indexOf(n)!=-1){
       //library file
-      return readFileSync(corePath+"/lib/"+n,"utf8");
+      return getFile(corePath+"/lib/"+n,false,true);
     } else {
       //other file
       return readFileSync(n,"utf8");
     }
   }catch(e){
+    if(recursive){
+      try{
+        //check if n is a directory containing
+        //a main.orx file
+        if(readdirSync(n).indexOf("main.orx")!=-1){
+          return getFile(n+"/main.orx",true,true);
+        } else if(strict){
+          console.log("Directory \""+n+"\" did not contain a main.orx file");
+          process.exit(0);
+        }
+      }catch(e){/*n is not a directory*/}
+    }
     if(strict){
       console.log("File \""+n+"\" not found");
       process.exit(0);
@@ -46,7 +58,7 @@ function run(filename,params=[]){
   //create the environment
   let env = new LangEnv(getFile,printOutput);
   //read and run the code
-  env.run(getFile(filename,true),params);
+  env.run(getFile(filename,true,true),params);
 }
 
 //check if a file argument is given
