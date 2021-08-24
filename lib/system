@@ -5,7 +5,7 @@
     os:require("os"),
   };
   this.functions["string,\"orynxCorePath\""] = new LangVal(
-    "string",__dirname;
+    "string",__dirname);
 }
 
 async ([command],originScope)=>{
