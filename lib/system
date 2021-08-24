@@ -5,7 +5,7 @@
     os:require("os"),
   };
   this.functions["string,\"orynxCorePath\""] = new LangVal(
-    "string",this.extentions.system.os.homedir()+"/bin/OrynxCore",this);
+    "string",__dirname;
 }
 
 async ([command],originScope)=>{

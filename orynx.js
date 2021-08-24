@@ -13,7 +13,7 @@ const repl = require("repl");
 const os = require("os");
 
 //orynxCore folder path
-const corePath = os.homedir()+"/bin/OrynxCore";
+const corePath = __dirname;
 
 //file reading function
 function getFile(n,strict=false){
