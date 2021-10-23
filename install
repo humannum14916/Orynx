@@ -1,13 +1,11 @@
 #!/bin/bash
 
-#go to the user's home directory
-cd ~
+#install targets
+mainDest="~/bin"
+scriptDest="~/bin"
 
-#ensure that they have a bin directory
-mkdir bin
-
-#go into it
-cd bin
+#go to the main install directory
+cd "$mainDest"
 
 #clone Orynx there
 git clone https://github.com/humannum14916/Orynx.git
@@ -16,6 +14,8 @@ git clone https://github.com/humannum14916/Orynx.git
 #(to prevent there being two files with the same name)
 mv ~/bin/Orynx ~/bin/OrynxCore
 
-#move the orynx bash script wrapper out
-#of the OrynxCore directory and into bin
-cp ~/bin/OrynxCore/orynx ~/bin
+#go to the script install directory
+cd "$scriptDest"
+
+#create a symlink to the wrapper script
+ln -s "$scriptDest"/OrynxCore/orynx orynx
