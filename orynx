@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#Orynx command wrapper script
+node ~/bin/OrynxCore/orynx.js $1 $2
