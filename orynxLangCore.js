@@ -406,6 +406,7 @@ const LangEnv = function(){
       new SFunc(async ([time])=>{
         if(time.type!="number") this.error("Milliseconds to wait must be a number");
         await new Promise(r=>{setTimeout(r,time.value)});
+        return new LangVal("null","null",this);
       },"wait",this);
       new SFunc(([a,b])=>{
         if(a.type=="number"&&b.type=="number"){
