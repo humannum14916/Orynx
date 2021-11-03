@@ -100,6 +100,7 @@ const LangEnv = function(){
     if(/\d/.test(code[0])&&code.search(/\D/)==code.search(/["{<>()\[\].,=:;]/)){
       //number
       let end = code.search(/\D/);
+      if(end == -1) end = code.length;
       let num = code.slice(0,end);
       code = code.slice(end);
       
