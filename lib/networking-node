@@ -1,0 +1,94 @@
+()=>{
+  if(this.platform!="node") this.error("Cannot use node networking functions outside of node");
+  this.extentions.networking = {
+    createServer:require("http").createServer,
+    parseURL:require("url").parse,
+    fetch:require("node-fetch")
+  };
+}
+
+([handler,port])=>{
+  if(this.extentions.networking.server) this.error("Server already started");
+  if(handler.type!="function") this.error("Server request handler must be a function");
+  let portNum = 8000;
+  if(port){
+    if(port.type!="number") this.error("Port number must be a number");
+    portNum = port.value;
+  }
+  this.extentions.networking.handler = handler;
+  this.extentions.networking.server = this.extentions.networking.createServer(
+    async (req,res)=>{
+      //parse request
+      let reqVal = new LangVal("object",{
+        "string,\"method\"":new LangVal(
+          "string",req.method,this),
+        "string,\"path\"":new LangVal("string",
+          this.extentions.networking.parseURL(
+          req.url).path,this),
+      },this,this.top,true);
+      let headers = new LangVal("object",{},this,this.reqVal,true);
+      for(let h of Object.keys(req.headers)){
+        headers.value["string,\""+h+"\""] = new LangVal(
+          "string",req.headers[h],this
+        );
+      }
+      reqVal.value["string,\"headers\""] = headers;
+      //call handler
+      let resVal = await this.newThread(
+        this.extentions.networking.handler,
+        [reqVal],this.top
+      );
+      //parse return
+      let retParsed = {headers:{}};
+      if(!resVal.value["string,\"status\""]) this.error("Response must have a status code");
+      if(resVal.value["string,\"status\""].type!="number") this.error("Status code must be a number");
+      if(!resVal.value["string,\"headers\""]) this.error("Response must have a headers object");
+      if(resVal.value["string,\"headers\""].type!="object") this.error("Headers must be an ojbect");
+      if(!resVal.value["string,\"body\""]) this.error("Response must have a body");
+      if(resVal.value["string,\"body\""].type!="string") this.error("Response body must be a string");
+      retParsed.status = resVal.value["string,\"status\""].value*1;
+      retParsed.body = resVal.value["string,\"body\""].value;
+      for(let h of Object.keys(resVal.value["string,\"headers\""].value)){
+        if(h.slice(0,7)!="string,") this.error("Header name must be a string");
+        if(resVal.value["string,\"headers\""].value[h].type!="string") this.error("Headers must be strings");
+        retParsed.headers[h.slice(8,h.length-1)] = resVal.value["string,\"headers\""].value[h].value;
+      }
+      //respond
+      res.writeHead(
+        retParsed.status,retParsed.headers);
+      res.write(retParsed.body);
+      res.end();
+    }
+  );
+  this.extentions.networking.server.listen(portNum);
+  return new LangVal("null","null",this);
+},"initServer"
+
+async ([path,method,headers,body],originScope)=>{
+  if(path.type!="string") this.error("Path must be a string");
+  if(method.type!="string") this.error("Method must be a string");
+  if(headers.type!="object") this.error("Headers must be an object");
+  if(body.type!="string") this.error("Body must be a string");
+  //parse input
+  let fetchOptions = {
+    headers:{},method:method.value
+  };
+  if(body.value.length!=0) fetchOptions.body = body.value;
+  for(let h of Object.keys(headers.value)){
+    if(h.slice(0,7)!="string,") this.error("Header name must be a string");
+    if(headers.value[h].type!="string") this.error("Headers must be strings");
+    fetchOptions.headers[h.slice(8,h.length-1)] = headers.value[h].value;
+  }
+  //make request
+  let thread = this.freezeThread();
+  let res = await this.extentions.networking.fetch(
+    path.value,fetchOptions);
+  await this.waitThaw(thread);
+  //parse output
+  let ret = new LangVal("object",{
+    "string,\"status\"":new LangVal("number",res.status,this),
+    "string,\"body\"":new LangVal("string",await res.text(),this)
+  },this,originScope,true);
+  ret.value["string,\"headers\""] = new LangVal("object",{},this,ret,true);
+  return ret;
+},"request"
