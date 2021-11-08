@@ -60,15 +60,15 @@ foo = {
 ```
 Writing a function is as easy as putting the code between curly braces. However, that just creates the function, and it still needs to be written to a variable.
 
-This example also introduced another one of Orynx's basic types: strings. Like most languages, a string is just a pair of quotes with whatever you want inside (however, you cannot put a double quote in a string, as escape characters currently do not exist).
+This example also introduced another one of Orynx's basic types: strings. Like most languages, a string is just a pair of quotes with whatever you want inside. If you want to put a quote character in a string, you can escape it wiht a \\.
 ```javascript
-line1 = "Strings are fun!";
+line1 = "A string with some \"quotes\"";
 ```
 Now for another of the basic types: objects. An object is defined like this:
 ```javascript
 anObject = <
   "first":10,
-  "second":4
+  "second":4,
   3:24
 >;
 ```
@@ -129,7 +129,7 @@ logParams = {
 logParams("hello!",5);
 
 /*
-This will log <0:"hello",1:5,length:2>
+This will log <string,"length":number,"2";number,"0":string,"hi";number,"1":number,"5">
 */
 ```
 The `parameters` object has a `length` property that shows the number of parameters. It is a good idea to store the contents of the `parameters` variable in another variable if you will be passing it to other functions. The `parameters` variable is changed quite a lot, so it's a good idea to have a safe copy of it.
@@ -188,7 +188,7 @@ Normally, you would expect this to log `2` and then crash, because `x` isn't def
 testWrapper = <
   "scopeTest":{
     x = 2;
-    log(X);
+    log(x);
   }
 >;
 
@@ -204,7 +204,7 @@ By having the function be a property of an object, all the sudden it has it's ow
 testWrapper = <
   "scopeTest":{
     x = 2;
-    log(X);
+    log(x);
   }
 >;
 
@@ -238,7 +238,7 @@ varName = "aVariable";
 
 [varName] = 3;
 ```
-Using square brackets, you can access a variable using another variable as the name. This also works with parenthesis, allowing you to call a function's parent object from inside the function.
+Using square brackets, you can access a variable using another variable as the name. A similar trick also works with parenthesis, allowing you to call a function's parent object from inside the function.
 ```javascript
 recursion = <
   "onCall":{
@@ -314,7 +314,7 @@ objectB = <
 
 objectA.myFunction(); //will log 10
 objectB.MYfunctionNow = objectA.myFunction;
-objectB.MyfunctionNow(); //will still log 10
+objectB.MYfunctionNow(); //will still log 10
 ```
 Similarly, objects can be changed from multiple
 places.
@@ -326,7 +326,7 @@ log(anObject.number); //will log 1
 sameObject = anObject;
 sameObject.number = 5;
 
-log(anObject.number) //will log 5
+log(anObject.number); //will log 5
 ```
 
 Inside the `Orynx` directory is another directory called `lib`. When attempting to read a file, Orynx will first check if a file by the same name exists in the `lib` directory. If one exists there, the file from `lib` will be read. This happens for all file reads, even `import`, `extend`, and reading the code file to be run. This is used to allow quick access to extentions and modules, and well as run the `help`, `test`, and `update` scripts.
@@ -345,14 +345,14 @@ asyncF = {
   log(9);
 };
 
-async(asycnF);
-async(asycnF);
+async(asyncF);
+async(asyncF);
 ```
 This will result in both functions running at the same time. The need to run an asynchronous function synchonously is rare, but when you need to do it, it is often incredibly hard to find a way around it. I actually ran into this problem while making Orynx's async function system, and the result is several functions with synchronous duplicates.
 
 ## Built-in function guide
 A complete list of Orynx's built-in functions
-+ `platform`: Not actually a function, but a string that hold the name of the platform the language is running on. `"node"` for NodeJS, and `"webpage"` for a website.
++ `platform`: Not actually a function, but a string that holds the name of the platform the language is running on. `"node"` for NodeJS, and `"webpage"` for a website.
 + `log`: A simple output command. Logs the given value to the console.
 + `error`: Throws an error with the given value. Errors cannot be caught, so be careful.
 + `copy`: Creates a copy of an input value. Will not create copies of an object's properties.
@@ -388,15 +388,15 @@ Using the `import` function, you can import the standard library (which is writt
   + Calling `Array` will create an array from an object like `parameters`.
   + `Array.from` does the same thing.
   + `Array.array` is the array class.
-    +Calling `Array.array` returns a blank array.
-    +`Array.array.prototype` is the blank array template.
+    + Calling `Array.array` returns a blank array.
+    + `Array.array.prototype` is the blank array template.
   + Array manipulation functions:
-    +`push`: Add the given value to the end of the array. Returns the new length.
-    +`pop`: Removes and returns the last item in the array.
-    +`top`: Returs the last item in the array without removing it.
-    +`forEach`: Calls the given function on each item in the array.
-    +`concat`: Adds the given array to the end of the array.
-    +`slice`: Returns a section of the array from first index (inclusive) to last index (exclusive).
+    + `push`: Add the given value to the end of the array. Returns the new length.
+    + `pop`: Removes and returns the last item in the array.
+    + `top`: Returs the last item in the array without removing it.
+    + `forEach`: Calls the given function on each item in the array.
+    + `concat`: Adds the given array to the end of the array.
+    + `slice`: Returns a section of the array from first index (inclusive) to last index (exclusive).
 + `le`: Takes two numbers and returns true if the first is less than or equal to the second.
 + `ge`: Takes two numbers and returns true if the first is greater than or equal to the second.
 + `default`: Takes an object, a property name, and a default value. If the object does not have a property under that name, it creates it and gives it the default value. Returns the object.
@@ -404,7 +404,7 @@ Using the `import` function, you can import the standard library (which is writt
   + Calling `Promise` will run the Promise constructor. It takes an async function, an optional parameter for it, and an optional array of other functions to call on completion.
   + `Promise.prototype`: The Promise template object
   + Promise functions:
-    +`onComplete`: Adds another function to be called on Promise resolution. If the Promise has already resolved, the function is called immediately.
+    + `onComplete`: Adds another function to be called on Promise resolution. If the Promise has already resolved, the function is called immediately.
   + Usage:
   When the promise is created, it calls the given function asynchonously with the given parameter. When that functions sets the `asyncReturn` variable to something other than `null`, the Promise is resolved. All functions scheduled to be called are called and passed the value of `asyncReturn`.
 + `slice`: Takes a string and two numbers. Performs the same operation as `array`'s slice function, but on the passed string.
