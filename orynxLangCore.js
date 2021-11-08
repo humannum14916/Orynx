@@ -796,7 +796,7 @@ const LangEnv = function(){
         return "object,{"+out+"}";
       } else if(this.type == "function"){
         //function, just return the id
-        return "function,"+this.id;
+        return "function,#"+this.id;
       } else {
         //else, return the type and value
         return this.type + ",\"" + this.value + "\"";
@@ -819,7 +819,7 @@ const LangEnv = function(){
         out = out.slice(1);
         return "object,{"+out+"}";
       } else if(this.type == "function"){
-        return "function,"+this.id;
+        return "function,#"+this.id;
       } else {
         return this.type + ",\"" + this.value + "\"";
       }
