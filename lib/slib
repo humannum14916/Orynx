@@ -6,12 +6,14 @@ return = <
 },
 
 "while":<"onCall":{
-  condition = parameters.0;
-  body = parameters.1;
-  if(condition(),{
-    body();
-    while(condition,body);
-  },{});
+  local.condition = parameters.0;
+  local.body = parameters.1;
+  ?(local.condition(),{
+    local.cond = parameters.0;
+    local.bod = parameters.1;
+    local.bod();
+    while(local.cond,local.bod);
+  },{})(local.condition,local.body);
 }>,
 
 "Array":<
