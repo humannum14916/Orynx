@@ -339,7 +339,7 @@ const LangEnv = function(){
             "string,\"return\"":new LangVal("null","null",this)
           }),this,originScope,true);
         let attempt = await this.readFile(param.value);
-        if(!attempt) this.error("Module file does not exist");
+        if(!attempt) this.error("Module file \""+param.value+"\" does not exist");
         let moduleF = new LangVal("function",
           parse(attempt,this),
           this,moduleO);
@@ -349,7 +349,7 @@ const LangEnv = function(){
       new SFunc(async ([param],originScope)=>{
         if(param.type!="string") this.error("Extention file name must be a string");
         let attempt = await this.readFile(param.value);
-        if(!attempt) this.error("Extention file does not exist");
+        if(!attempt) this.error("Extention file \""+param.value+"\" does not exist");
         let file = attempt.split("\n\n");
         eval(file.shift())();
         for(let i of file){
