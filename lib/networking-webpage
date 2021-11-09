@@ -1,0 +1,31 @@
+()=>{
+  if(this.platform!="webpage") this.error("Cannot use webpage networking functions outside of a webpage");
+}
+
+async ([path,method,headers,body],originScope)=>{
+  if(path.type!="string") this.error("Path must be a string");
+  if(method.type!="string") this.error("Method must be a string");
+  if(headers.type!="object") this.error("Headers must be an object");
+  if(body.type!="string") this.error("Body must be a string");
+  //parse input
+  let fetchOptions = {
+    headers:{},method:method.value
+  };
+  if(body.value.length!=0) fetchOptions.body = body.value;
+  for(let h of Object.keys(headers.value)){
+    if(h.slice(0,7)!="string,") this.error("Header name must be a string");
+    if(headers.value[h].type!="string") this.error("Headers must be strings");
+    fetchOptions.headers[h.slice(8,h.length-1)] = headers.value[h].value;
+  }
+  //make request
+  let thread = this.freezeThread();
+  let res = await fetch(path.value,fetchOptions);
+  await this.waitThaw(thread);
+  //parse output
+  let ret = new LangVal("object",{
+    "string,\"status\"":new LangVal("number",res.status,this),
+    "string,\"body\"":new LangVal("string",await res.text(),this)
+  },this,originScope,true);
+  ret.value["string,\"headers\""] = new LangVal("object",{},this,ret,true);
+  return ret;
+},"request"
