@@ -10,7 +10,7 @@ Second, instead of having to declare a function as asynchonous like in Javascrip
 Aside from that, Orynx is very similar to JS, and even shares the ability to be run in NodeJS and on webpages.
 
 ## Downloading and setting up Orynx
-While the Orynx language can be used anywhere Javascript is available, this version of the language is designed to be used from a command line, specifically on Linux. If you want to use Orynx in another environment, see the section "Orynx and Javascript".
+While the Orynx language can be used anywhere Javascript is available, this version of the language is designed to be used from a command line. If you want to use Orynx in another environment, see the section "Orynx and Javascript".
 
 To install Orynx, run the following commands:
 ```bash
@@ -29,6 +29,10 @@ chmod 755 orynxInstaller; ./orynxInstaller; rm orynxInstaller
 At this point, you can test that the `orynx` command is working by opening the terminal and running `orynx test`. For an overview of how to use the `orynx` command, run `orynx help`.
 
 To update to the latest version of Orynx, run `orynx update`.
+
+## Using the `orynx` command
+
+The `orynx` command is incredibly simple. If run with no arguments, it starts an interactive Orynx REPL. If run with a single argument, it runs that file. Any further arguments are ignored.
 
 ## Basics
 Code in Orynx is broken into statements, which can either consist of two expressions separated by an equals sign, or a single expression. Statements also must end with a semicolon.
